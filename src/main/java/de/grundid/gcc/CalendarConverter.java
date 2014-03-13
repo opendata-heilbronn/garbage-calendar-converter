@@ -3,8 +3,6 @@ package de.grundid.gcc;
 import java.io.ByteArrayOutputStream;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map.Entry;
 
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
@@ -36,11 +34,8 @@ public class CalendarConverter {
 			calendar.getProperties().add(Method.PUBLISH);
 			calendar.getProperties().add(new XProperty("X-WR-CALNAME", "Müllabfuhrtermine " + gc.getCommunity()));
 			calendar.getProperties().add(new XProperty("X-WR-CALDESC", "Restmüll, Biomüll und Papier"));
-			for (Entry<String, List<java.util.Calendar>> entry : gc.getEntryMap().entrySet()) {
-				String category = entry.getKey();
-				for (java.util.Calendar cal : entry.getValue()) {
-					calendar.getComponents().add(createEvent(category, cal));
-				}
+			for (GarbageEvent entry : gc.getDates()) {
+				calendar.getComponents().add(createEvent(entry));
 			}
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			CalendarOutputter outputter = new CalendarOutputter();
@@ -52,12 +47,13 @@ public class CalendarConverter {
 		}
 	}
 
-	private VEvent createEvent(String category, java.util.Calendar date) throws URISyntaxException {
+	private VEvent createEvent(GarbageEvent ge) throws URISyntaxException {
+		String category = ge.getType();
 		//		System.out.println(sdfMinutes.format(date.getTime()));
-		VEvent event = new VEvent(new Date(date.getTime()), category);
+		VEvent event = new VEvent(new Date(ge.getDate().getTime()), category);
 		//		System.out.println(event.getStartDate().toString());
 		PropertyList properties = event.getProperties();
-		properties.add(new Uid(category + "-" + date.getTimeInMillis()));
+		properties.add(new Uid(category + "-" + ge.getDate().getTimeInMillis()));
 		properties.add(new Organizer("OpenDataDay"));
 		properties.add(new Categories(category));
 		properties.add(Clazz.PUBLIC);

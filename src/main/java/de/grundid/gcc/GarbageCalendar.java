@@ -1,28 +1,32 @@
 package de.grundid.gcc;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class GarbageCalendar {
 
 	private String community;
-	private Map<String, List<Calendar>> entryMap = new HashMap<String, List<Calendar>>();
+	private String fileName;
+	private SortedSet<GarbageEvent> dates = new TreeSet<>(new GarbageEventComparator());
 
-	public GarbageCalendar(String community) {
+	public GarbageCalendar(String community, String fileName) {
 		this.community = community;
+		this.fileName = fileName;
 	}
 
-	public void addEntry(String category, List<Calendar> entries) {
-		entryMap.put(category, entries);
+	public void addEntry(GarbageEvent event) {
+		dates.add(event);
 	}
 
 	public String getCommunity() {
 		return community;
 	}
 
-	public Map<String, List<Calendar>> getEntryMap() {
-		return entryMap;
+	public String getFileName() {
+		return fileName;
+	}
+
+	public SortedSet<GarbageEvent> getDates() {
+		return dates;
 	}
 }

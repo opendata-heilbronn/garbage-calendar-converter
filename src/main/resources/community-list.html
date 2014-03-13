@@ -1,0 +1,21 @@
+	<div>
+	<p>Übersicht aller Gemeinden im LK Heilbronn mit Müllabfuhrterminen.</p>
+	<p>Klicken Sie auf den PDF Link um den Abfallkalender für Ihre Gemeinde downzuloaden oder laden Sie die ICS Datei für Ihren mobilen Kalender runter.</p>
+	<div>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Gemeinde</th>
+			<th>PDF</th>
+			<th>Kalender-Datei</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><a href="#/community/{{c.community}}">{{c.community}}</a></td>
+			<td><a href="http://www.landkreis-heilbronn.de/sixcms/media.php/103/{{c.fileName}}.pdf">PDF</a></td>
+			<td><a href="{{c.fileName}}.ics">ICS</a></td>
+		</tr>
+	</tbody>
+</table>
