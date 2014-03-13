@@ -1,7 +1,6 @@
 package de.grundid.gcc;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,9 +16,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 
 public class Converter {
 
@@ -119,9 +115,7 @@ public class Converter {
 		return sdf.parse(str);
 	}
 
-	public void run() {
-		CalendarConverter cc = new CalendarConverter();
-		ObjectMapper om = new ObjectMapper();
+	public List<GarbageCalendar> getCommunityCalendars() {
 		List<GarbageCalendar> cals = new ArrayList<>();
 		try {
 			InputStream inp = new FileInputStream("/Users/adrian/Downloads/daten_muell_abfuhr.xlsx");
@@ -142,30 +136,11 @@ public class Converter {
 					}
 				}
 				cals.add(gc);
-				try {
-					byte[] bs = cc.convert(gc);
-					FileOutputStream fos = new FileOutputStream("/Users/adrian/Downloads/opendata/" + community
-							+ ".ics");
-					fos.write(bs);
-					fos.flush();
-					fos.close();
-				}
-				catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
 			}
-			FileOutputStream json = new FileOutputStream("/Users/adrian/Downloads/opendata/garbage.data.js");
-			ObjectWriter ow = om.writerWithDefaultPrettyPrinter();
-			json.write(ow.writeValueAsString(cals).getBytes("utf8"));
-			json.flush();
-			json.close();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static void main(String[] args) {
-		new Converter().run();
+		return cals;
 	}
 }
