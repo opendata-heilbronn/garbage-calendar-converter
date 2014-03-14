@@ -17,8 +17,8 @@ public class HtmlDetailsExporter extends AbstractHtmlExporter {
 			sb.append("<div itemscope itemtype=\"http://schema.org/Event\"><div>");
 			sb.append("<time itemprop=\"startDate\" datetime=\"").append(sdf.format(ge.getDate().getTime()))
 					.append("\">").append(sdfVisible.format(ge.getDate().getTime())).append("</time>");
-			sb.append(" <span itemprop=\"summary\">").append(ge.getType())
-					.append("</span> (<span itemprop=\"location\">").append(gc.getCommunity()).append("</span>)");
+			sb.append(" <span itemprop=\"name\">").append(ge.getType()).append("</span> (<span itemprop=\"location\">")
+					.append(gc.getCommunity()).append("</span>)");
 			sb.append("</div></div>");
 		}
 		return newTemplate.replace("<!-- replace -->", sb);
